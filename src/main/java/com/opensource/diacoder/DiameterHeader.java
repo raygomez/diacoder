@@ -24,4 +24,37 @@ public class DiameterHeader {
 	public int getVersion() {
 		return version;
 	}
+
+	public int getMessageLength() {
+		return messageLength;
+	}
+
+	public boolean isRequest() {
+		return isRequest;
+	}
+
+	public boolean isProxiable() {
+		return isProxiable;
+	}
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public boolean isRetransmitted() {
+		return isRetransmitted;
+	}
+
+	public int getCommandCode() {
+		return commandCode;
+	}
+
+	public int getHopByHopId() {
+		return hopByHopId;
+	}
+
+	public int getEndToEndId() {
+		return endToEndId;
+	}
+
 }

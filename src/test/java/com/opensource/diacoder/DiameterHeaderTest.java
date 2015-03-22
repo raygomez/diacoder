@@ -14,7 +14,7 @@ public class DiameterHeaderTest {
 		DiameterHeader header = new DiameterHeader(input);
 		assertEquals(0x01, header.getVersion());
 		assertEquals(16, header.getMessageLength());
-		assertTrue(header.isMandatory());
+		assertTrue(header.isRequest());
 		assertTrue(header.isProxiable());
 		assertTrue(header.isError());
 		assertTrue(header.isRetransmitted());
