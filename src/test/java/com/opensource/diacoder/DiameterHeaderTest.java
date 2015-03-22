@@ -13,7 +13,14 @@ public class DiameterHeaderTest {
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02};
 		DiameterHeader header = new DiameterHeader(input);
 		assertEquals(0x01, header.getVersion());
-		
+		assertEquals(16, header.getMessageLength());
+		assertTrue(header.isMandatory());
+		assertTrue(header.isProxiable());
+		assertTrue(header.isError());
+		assertTrue(header.isRetransmitted());
+		assertEquals(0, header.getCommandCode());
+		assertEquals(0, header.getHopByHopId());
+		assertEquals(0, header.getEndToEndId());
 		
 	}
 

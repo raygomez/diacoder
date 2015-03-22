@@ -20,4 +20,8 @@ public class DiameterHeader {
 	public DiameterHeader(byte[] array){
 		
 	}
+
+	public int getVersion() {
+		return version;
+	}
 }
