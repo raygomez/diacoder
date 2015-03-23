@@ -18,17 +18,7 @@ public class DiameterHeader {
 	}
 	
 	public DiameterHeader(byte[] input){
-		version = input[0];
-		messageLength = (input[1] << 16) + (input[2] << 8) + input[3];
-
-		isRequest = (input[4] & 0x80) > 0;
-		isProxiable = (input[4] & 0x40) > 0;
-		isError = (input[4] & 0x20) > 0;
-		isRetransmitted = (input[4] & 0x10) > 0;
-		commandCode = input[5] << 16 | input[6] << 8 | input [7];
-		applicationId = input[8] << 24 | (input[9] & 0xFF) << 16 | (input[10] & 0xFF) << 8 | input [11];
-		hopByHopId =  input[12] << 24 | (input[13] & 0xFF) << 16 | (input[14] & 0xFF) << 8 | input [15];
-		endToEndId =  input[16] << 24 | (input[17] & 0xFF) << 16 | (input[18] & 0xFF) << 8 | input [19];
+		decode(input);
 		
 	}
 
@@ -71,4 +61,21 @@ public class DiameterHeader {
 		return endToEndId;
 	}
 
+	public void decode(byte[] input) {
+		version = input[0];
+		messageLength = (input[1] << 16) + (input[2] << 8) + input[3];
+
+		isRequest = (input[4] & 0x80) > 0;
+		isProxiable = (input[4] & 0x40) > 0;
+		isError = (input[4] & 0x20) > 0;
+		isRetransmitted = (input[4] & 0x10) > 0;
+		commandCode = input[5] << 16 | input[6] << 8 | input [7];
+		applicationId = input[8] << 24 | (input[9] & 0xFF) << 16 | (input[10] & 0xFF) << 8 | input [11];
+		hopByHopId =  input[12] << 24 | (input[13] & 0xFF) << 16 | (input[14] & 0xFF) << 8 | input [15];
+		endToEndId =  input[16] << 24 | (input[17] & 0xFF) << 16 | (input[18] & 0xFF) << 8 | input [19];
+	}
+
+	public void encode(byte[] input){
+		
+	}
 }
