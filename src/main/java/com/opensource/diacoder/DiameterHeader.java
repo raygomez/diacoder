@@ -103,6 +103,14 @@ public class DiameterHeader {
 	}
 
 	public void decode(byte[] input) {
+		
+		if(input.length != 20) {
+			if(input.length > 20){
+				throw new IllegalArgumentException("DiameterHeader length is greater than 20.");
+			} else {
+				throw new IllegalArgumentException("DiameterHeader length is less than 20.");
+			}
+		}
 		version = input[0];
 		messageLength = (input[1] << 16) + (input[2] << 8) + input[3];
 
@@ -121,6 +129,14 @@ public class DiameterHeader {
 
 	public void encode(byte[] input) {
 
+		if(input.length != 20) {
+			if(input.length > 20){
+				throw new IllegalArgumentException("DiameterHeader length is greater than 20.");
+			} else {
+				throw new IllegalArgumentException("DiameterHeader length is less than 20.");
+			}
+		}
+		
 		input[0] = version;
 		input[1] = (byte) ((messageLength >> 16) & 0xFF);
 		input[2] = (byte) ((messageLength >> 8) & 0xFF);

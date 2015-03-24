@@ -2,9 +2,14 @@ package com.opensource.diacoder;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class DiameterHeaderTest {
+
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Test
 	public void testDecodeHeader() {
@@ -29,11 +34,9 @@ public class DiameterHeaderTest {
 	@Test
 	public void testDecodeHeaderWithOtherValues() {
 
-		byte[] input = { 0x01, 0x00, 0x00, 0x14,
-				0x30, 0x11, 0x22, 0x33,
-				0x11, 0x22, 0x33, 0x44,
-				(byte) 0x99, (byte) 0x88, 0x77, 0x66,
-				0x55, 0x44, 0x33, 0x22 };
+		byte[] input = { 0x01, 0x00, 0x00, 0x14, 0x30, 0x11, 0x22, 0x33, 0x11,
+				0x22, 0x33, 0x44, (byte) 0x99, (byte) 0x88, 0x77, 0x66, 0x55,
+				0x44, 0x33, 0x22 };
 		DiameterHeader header = new DiameterHeader(input);
 		assertEquals(0x01, header.getVersion());
 		assertEquals(20, header.getMessageLength());
@@ -50,9 +53,9 @@ public class DiameterHeaderTest {
 
 	@Test
 	public void testEncodeHeader() {
-		byte[] expected = { 0x01, 0x00, 0x00, 0x14, (byte) 0xC0, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-				0x00, 0x02 };
+		byte[] expected = { 0x01, 0x00, 0x00, 0x14, (byte) 0xC0, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+				0x00, 0x00, 0x02 };
 		DiameterHeader header = new DiameterHeader();
 		header.setVersion((byte) 1);
 		header.setMessageLength(20);
@@ -64,11 +67,52 @@ public class DiameterHeaderTest {
 		header.setApplicationId(0);
 		header.setHopByHopId(1);
 		header.setEndToEndId(2);
-		
+
 		byte[] result = new byte[expected.length];
 		header.encode(result);
-		
+
 		assertArrayEquals(expected, result);
-		
+
 	}
+
+	@Test
+	public void testRaiseExceptionWhenEncodeHeaderTooSmall() {
+		byte[] expected = { 0x01 };
+		DiameterHeader header = new DiameterHeader();
+		header.setVersion((byte) 1);
+		byte[] result = new byte[expected.length];
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("DiameterHeader length is less than 20.");
+		header.encode(result);
+	}
+
+	@Test
+	public void testRaiseExceptionWhenEncodeHeaderTooBig() {
+		byte[] expected = new byte[21];
+		DiameterHeader header = new DiameterHeader();
+		header.setVersion((byte) 1);
+		byte[] result = new byte[expected.length];
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("DiameterHeader length is greater than 20.");
+		header.encode(result);
+	}
+
+	@Test
+	public void testRaiseExceptionWhenDecodeHeaderTooSmall() {
+		byte[] input = { 0x01 };
+		DiameterHeader header = new DiameterHeader();
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("DiameterHeader length is less than 20.");
+		header.decode(input);
+	}
+
+	@Test
+	public void testRaiseExceptionWhenDecodeHeaderTooBig() {
+		byte[] input = new byte[21];
+		DiameterHeader header = new DiameterHeader();
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("DiameterHeader length is greater than 20.");
+		header.decode(input);
+	}
+
 }
