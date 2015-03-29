@@ -6,7 +6,7 @@ public class AvpHeader {
 	private boolean hasVendorId;
 	private boolean isMandatory;
 	private boolean isEncrypted;
-	private int avplength;
+	private int avpLength;
 	private int vendorId;
 
 	
@@ -46,11 +46,11 @@ public class AvpHeader {
 	}
 
 	public int getAvpLength() {
-		return avplength;
+		return avpLength;
 	}
 
 	public void setAvpLength(int length) {
-		this.avplength = length;
+		this.avpLength = length;
 	}
 
 	public boolean hasVendorId() {
@@ -68,7 +68,7 @@ public class AvpHeader {
 		isMandatory = (input[4] & 0x40) > 0;
 		isEncrypted = (input[4] & 0x20) > 0;
 		
-		avplength = input[5] << 16 | input[6] << 8 | input[7];  
+		avpLength = input[5] << 16 | input[6] << 8 | input[7];  
 		
 		if(hasVendorId()){
 			vendorId = input[8] << 24 | input[9] << 16 | input[10] << 8 | (input[11] & 0xFF);
@@ -78,6 +78,19 @@ public class AvpHeader {
 	}
 	
 	public void encode(byte[] input) {
+		
+		input[0] = (byte) ((avpCode >> 24) & 0xFF);
+		input[1] = (byte) ((avpCode >> 16) & 0xFF);
+		input[2] = (byte) ((avpCode >> 8) & 0xFF);
+		input[3] = (byte) (avpCode & 0xFF);
+		
+		input[4] = (byte)(hasVendorId ? 0x80 : 0);
+		input[4] |= (byte)(isMandatory ? 0x40 : 0);
+		input[4] |= (byte)(isEncrypted ? 0x20 : 0);
+		
+		input[5] = (byte) ((avpLength >> 16) & 0xFF);
+		input[6] = (byte) ((avpLength >> 8) & 0xFF);
+		input[7] = (byte) (avpLength & 0xFF);
 		
 	}
 
