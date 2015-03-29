@@ -1,13 +1,16 @@
 package com.opensource.diacoder;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
-    public static void main( String[] args )
+
+	private static Launcher launcher = new Launcher();
+	
+	public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+		launcher.run();
     }
+	
+	static void setLaunch(Launcher launcher) {
+		App.launcher = launcher; 
+	}
 }
