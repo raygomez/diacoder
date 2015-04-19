@@ -61,6 +61,9 @@ public class AvpHeader {
 		this.hasVendorId = hasVendorId;
 	}
 
+	public int getSize(){
+		return hasVendorId ? 12 : 8;
+	}
 	public void decode(byte[] input) {
 		
 		avpCode = input[0] << 24 | input[1] << 16 | input[2] << 8 | input[3];
@@ -77,20 +80,23 @@ public class AvpHeader {
 		}
 	}
 	
-	public void encode(byte[] input) {
+	public byte[] encode() {
+	
+		byte[] output = new byte[8];
+		output[0] = (byte) ((avpCode >> 24) & 0xFF);
+		output[1] = (byte) ((avpCode >> 16) & 0xFF);
+		output[2] = (byte) ((avpCode >> 8) & 0xFF);
+		output[3] = (byte) (avpCode & 0xFF);
 		
-		input[0] = (byte) ((avpCode >> 24) & 0xFF);
-		input[1] = (byte) ((avpCode >> 16) & 0xFF);
-		input[2] = (byte) ((avpCode >> 8) & 0xFF);
-		input[3] = (byte) (avpCode & 0xFF);
+		output[4] = (byte)(hasVendorId ? 0x80 : 0);
+		output[4] |= (byte)(isMandatory ? 0x40 : 0);
+		output[4] |= (byte)(isEncrypted ? 0x20 : 0);
 		
-		input[4] = (byte)(hasVendorId ? 0x80 : 0);
-		input[4] |= (byte)(isMandatory ? 0x40 : 0);
-		input[4] |= (byte)(isEncrypted ? 0x20 : 0);
+		output[5] = (byte) ((avpLength >> 16) & 0xFF);
+		output[6] = (byte) ((avpLength >> 8) & 0xFF);
+		output[7] = (byte) (avpLength & 0xFF);
 		
-		input[5] = (byte) ((avpLength >> 16) & 0xFF);
-		input[6] = (byte) ((avpLength >> 8) & 0xFF);
-		input[7] = (byte) (avpLength & 0xFF);
+		return output;
 		
 	}
 

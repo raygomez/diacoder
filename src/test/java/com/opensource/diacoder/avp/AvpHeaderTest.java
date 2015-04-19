@@ -25,7 +25,6 @@ public class AvpHeaderTest {
 	@Test
 	public void testEncodeHeaderNoVendorId(){
 		byte[] expected = { 0x00, 0x01, 0x23, 0x45, (byte) 0x40, 0x00, 0x00, 0x08 };
-		byte[] result = new byte[expected.length];
 		
 		AvpHeader header = new AvpHeader();
 		header.setAvpCode(0x12345);
@@ -33,7 +32,7 @@ public class AvpHeaderTest {
 		header.setEncrypted(false);
 		header.hasVendorId(false);
 		header.setAvpLength(8);
-		header.encode(result);
+		byte[] result = header.encode();
 
 		assertArrayEquals(expected, result);
 		
