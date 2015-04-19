@@ -58,7 +58,7 @@ public class AvpHeader {
 		return hasVendorId;
 	}
 
-	public int getSize(){
+	public int getLength(){
 		return hasVendorId ? 12 : 8;
 	}
 	public void decode(byte[] input) {
@@ -79,7 +79,7 @@ public class AvpHeader {
 	
 	public byte[] encode() {
 	
-		byte[] output = new byte[8];
+		byte[] output = new byte[getLength()];
 		output[0] = (byte) ((avpCode >> 24) & 0xFF);
 		output[1] = (byte) ((avpCode >> 16) & 0xFF);
 		output[2] = (byte) ((avpCode >> 8) & 0xFF);
@@ -92,6 +92,13 @@ public class AvpHeader {
 		output[5] = (byte) ((avpLength >> 16) & 0xFF);
 		output[6] = (byte) ((avpLength >> 8) & 0xFF);
 		output[7] = (byte) (avpLength & 0xFF);
+		
+		if(hasVendorId){
+			output[8] = (byte) ((vendorId >> 24) & 0xFF);
+			output[9] = (byte) ((vendorId >> 16) & 0xFF);
+			output[10] = (byte) ((vendorId >> 8) & 0xFF);
+			output[11] = (byte) (vendorId & 0xFF);
+		}
 		
 		return output;
 		

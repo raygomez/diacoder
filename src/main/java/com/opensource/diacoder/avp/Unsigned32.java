@@ -33,7 +33,7 @@ public class Unsigned32 extends Avp {
 	}
 
 	public int getLength() {
-		return header.getSize() + INTEGER_DATA_SIZE;
+		return header.getLength() + INTEGER_DATA_SIZE;
 	}
 
 	@Override
