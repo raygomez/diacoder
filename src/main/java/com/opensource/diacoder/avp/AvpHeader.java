@@ -43,6 +43,7 @@ public class AvpHeader {
 
 	public void setVendorId(int vendorId) {
 		this.vendorId = vendorId;
+		this.hasVendorId = true;
 	}
 
 	public int getAvpLength() {
@@ -55,10 +56,6 @@ public class AvpHeader {
 
 	public boolean hasVendorId() {
 		return hasVendorId;
-	}
-
-	public void hasVendorId(boolean hasVendorId) {
-		this.hasVendorId = hasVendorId;
 	}
 
 	public int getSize(){

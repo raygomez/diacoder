@@ -13,7 +13,6 @@ public abstract class Avp {
 	
 	public void setVendorId(int vendorId){
 		header.setVendorId(vendorId);
-		header.hasVendorId(true);
 	}
 	
 	public boolean hasVendorId(){
