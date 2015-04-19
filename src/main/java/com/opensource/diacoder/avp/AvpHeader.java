@@ -1,4 +1,4 @@
-package com.opensource.diacoder;
+package com.opensource.diacoder.avp;
 
 public class AvpHeader {
 

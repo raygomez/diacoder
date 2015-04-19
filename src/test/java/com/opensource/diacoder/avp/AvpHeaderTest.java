@@ -1,8 +1,10 @@
-package com.opensource.diacoder;
+package com.opensource.diacoder.avp;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.opensource.diacoder.avp.AvpHeader;
 
 public class AvpHeaderTest {
 
