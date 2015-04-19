@@ -71,7 +71,11 @@ public class AvpHeader {
 		avpLength = input[5] << 16 | input[6] << 8 | input[7];  
 		
 		if(hasVendorId()){
-			vendorId = input[8] << 24 | input[9] << 16 | input[10] << 8 | (input[11] & 0xFF);
+			vendorId = input[8] << 24;
+			vendorId |= (input[9] & 0xFF) << 16;
+			vendorId |= (input[10] & 0xFF) << 8;
+			vendorId |= input[11] & 0xFF;
+
 		} else {
 			vendorId = 0;
 		}
