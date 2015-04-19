@@ -2,7 +2,7 @@ package com.opensource.diacoder.avp;
 
 public abstract class Avp {
 
-	protected AvpHeader header;
+	protected AvpHeader header = new AvpHeader();
 	
 	public Avp() {
 	}
