@@ -20,6 +20,7 @@ public class Unsigned32 extends Avp {
 	public byte[] encode() {
 		
 		byte[] output = new byte[getLength()];
+		header.setAvpLength(getLength());
 		byte[] encodedHeader = header.encode();
 		int headerLength = encodedHeader.length;
 		System.arraycopy(encodedHeader, 0, output, 0, headerLength);
