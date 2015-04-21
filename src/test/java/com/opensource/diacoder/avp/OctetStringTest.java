@@ -62,7 +62,7 @@ public class OctetStringTest {
 	}
 	
 	@Test
-	public void testUnsigned32DecodeWithVendorId() {
+	public void testOctetStringDecodeWithVendorId() {
 		byte[] input = { (byte) 0x88, 0x77, 0x66, 0x55, (byte) 0x80, 0x00, 0x00,
 				(byte) 0x0E, (byte) 0x87, 0x65, 0x43, 0x21, (byte) 0x88, 0x77,
 				0x00, 0x00 };
