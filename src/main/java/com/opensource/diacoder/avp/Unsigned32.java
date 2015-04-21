@@ -43,6 +43,13 @@ public class Unsigned32 extends Avp {
 	@Override
 	public void decode(byte[] input) {
 
+		header.decode(input);
+		int headerLength = header.getLength();
+		data = (input[headerLength] & 0xFF) << 24;
+		data |= (input[headerLength + 1] & 0xFF) << 16;
+		data |= (input[headerLength + 2] & 0xFF) << 8;
+		data |= input[headerLength + 3] & 0xFF;
+
 	}
 
 }

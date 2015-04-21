@@ -45,18 +45,35 @@ public class Unsigned32Test {
 	}
 
 	@Test
-	public void testUnsigned32DecodeWithoutVendorId(){
+	public void testUnsigned32DecodeWithoutVendorId() {
 		byte[] input = { (byte) 0x88, 0x77, 0x66, 0x55, 0x40, 0x00, 0x00,
 				(byte) 0x0C, (byte) 0x88, 0x77, 0x66, 0x55 };
 
 		Unsigned32 avp = new Unsigned32();
 		avp.decode(input);
-		
+
+		assertEquals(0x88776655, avp.getAvpCode());
+		assertEquals(0x88776655, avp.getData());
+		assertFalse(avp.hasVendorId());
+		assertTrue(avp.isMandatory());
+		assertFalse(avp.isEncrypted());
+	}
+
+	@Test
+	public void testUnsigned32DecodeWithVendorId() {
+		byte[] input = { (byte) 0x88, 0x77, 0x66, 0x55, 0x40, 0x00, 0x00,
+				(byte) 0x10, (byte) 0x87, 0x65, 0x43, 0x21, (byte) 0x88, 0x77,
+				0x66, 0x55 };
+
+		Unsigned32 avp = new Unsigned32();
+		avp.decode(input);
+
 		assertEquals(0x88776655, avp.getAvpCode());
 		assertEquals(0x88776655, avp.getData());
 		assertTrue(avp.hasVendorId());
+		assertEquals(0x87654321, avp.getVendorId());
 		assertFalse(avp.isMandatory());
 		assertFalse(avp.isEncrypted());
-		
 	}
+
 }
