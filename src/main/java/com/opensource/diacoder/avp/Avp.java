@@ -7,6 +7,10 @@ public abstract class Avp {
 	public Avp() {
 	}
 	
+	public int getAvpCode(){
+		return header.getAvpCode();
+	}
+	
 	public void setAvpCode(int avpCode){
 		header.setAvpCode(avpCode);
 	}
@@ -18,7 +22,11 @@ public abstract class Avp {
 	public boolean hasVendorId(){
 		return header.hasVendorId();
 	}
-	
+
+	public boolean isMandatory(){
+		return header.isMandatory();
+	}
+
 	public void setMandatory(boolean isMandatory){
 		header.setMandatory(isMandatory);
 	}

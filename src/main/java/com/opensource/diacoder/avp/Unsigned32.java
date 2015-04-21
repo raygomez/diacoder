@@ -16,6 +16,10 @@ public class Unsigned32 extends Avp {
 		this.data = data;
 	}
 
+	public boolean isEncrypted() {
+		return header.isEncrypted();
+	}
+
 	@Override
 	public byte[] encode() {
 		

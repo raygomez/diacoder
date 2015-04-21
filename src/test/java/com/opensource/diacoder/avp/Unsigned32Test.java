@@ -1,7 +1,11 @@
 package com.opensource.diacoder.avp;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class Unsigned32Test {
@@ -40,4 +44,19 @@ public class Unsigned32Test {
 
 	}
 
+	@Test
+	public void testUnsigned32DecodeWithoutVendorId(){
+		byte[] input = { (byte) 0x88, 0x77, 0x66, 0x55, 0x40, 0x00, 0x00,
+				(byte) 0x0C, (byte) 0x88, 0x77, 0x66, 0x55 };
+
+		Unsigned32 avp = new Unsigned32();
+		avp.decode(input);
+		
+		assertEquals(0x88776655, avp.getAvpCode());
+		assertEquals(0x88776655, avp.getData());
+		assertTrue(avp.hasVendorId());
+		assertFalse(avp.isMandatory());
+		assertFalse(avp.isEncrypted());
+		
+	}
 }
