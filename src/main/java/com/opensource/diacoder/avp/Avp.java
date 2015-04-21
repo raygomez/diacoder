@@ -35,6 +35,10 @@ public abstract class Avp {
 		header.setMandatory(isMandatory);
 	}
 
+	public boolean isEncrypted() {
+		return header.isEncrypted();
+	}
+
 	public void setEncryption(boolean isEncrypted) {
 		header.setEncrypted(isEncrypted);
 	}
