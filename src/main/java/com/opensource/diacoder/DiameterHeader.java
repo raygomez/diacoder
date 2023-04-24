@@ -7,15 +7,15 @@ public class DiameterHeader {
 	private static final int PROXIABLE_FLAG = 0x40;
 	private static final int REQUEST_FLAG = 0x80;
 	private byte version;
-	private int messageLength;
+	private long messageLength;
 	private boolean isRequest;
 	private boolean isProxiable;
 	private boolean isError;
 	private boolean isRetransmitted;
-	private int commandCode;
-	private int applicationId;
-	private int hopByHopId;
-	private int endToEndId;
+	private long commandCode;
+	private long applicationId;
+	private long hopByHopId;
+	private long endToEndId;
 
 	public DiameterHeader() {
 
@@ -30,7 +30,7 @@ public class DiameterHeader {
 		return version;
 	}
 
-	public int getMessageLength() {
+	public long getMessageLength() {
 		return messageLength;
 	}
 
@@ -50,19 +50,19 @@ public class DiameterHeader {
 		return isRetransmitted;
 	}
 
-	public int getCommandCode() {
+	public long getCommandCode() {
 		return commandCode;
 	}
 
-	public int getApplicationId() {
+	public long getApplicationId() {
 		return applicationId;
 	}
 
-	public int getHopByHopId() {
+	public long getHopByHopId() {
 		return hopByHopId;
 	}
 
-	public int getEndToEndId() {
+	public long getEndToEndId() {
 		return endToEndId;
 	}
 
@@ -70,7 +70,7 @@ public class DiameterHeader {
 		this.version = version;
 	}
 
-	public void setMessageLength(int messageLength) {
+	public void setMessageLength(long messageLength) {
 		this.messageLength = messageLength;
 	}
 
@@ -90,19 +90,19 @@ public class DiameterHeader {
 		this.isRetransmitted = isRetransmitted;
 	}
 
-	public void setCommandCode(int commandCode) {
+	public void setCommandCode(long commandCode) {
 		this.commandCode = commandCode;
 	}
 
-	public void setApplicationId(int applicationId) {
+	public void setApplicationId(long applicationId) {
 		this.applicationId = applicationId;
 	}
 
-	public void setHopByHopId(int hopByHopId) {
+	public void setHopByHopId(long hopByHopId) {
 		this.hopByHopId = hopByHopId;
 	}
 
-	public void setEndToEndId(int endToEndId) {
+	public void setEndToEndId(long endToEndId) {
 		this.endToEndId = endToEndId;
 	}
 
@@ -132,27 +132,27 @@ public class DiameterHeader {
 		}
 	}
 
-	private int extractEndToEndId(byte[] input) {
+	private long extractEndToEndId(byte[] input) {
 		return input[16] << 24 | (input[17] & 0xFF) << 16
 				| (input[18] & 0xFF) << 8 | input[19];
 	}
 
-	private int extractHopByHopId(byte[] input) {
+	private long extractHopByHopId(byte[] input) {
 		return input[12] << 24 | (input[13] & 0xFF) << 16
 				| (input[14] & 0xFF) << 8 | input[15];
 	}
 
-	private int extractApplicationId(byte[] input) {
+	private long extractApplicationId(byte[] input) {
 		return input[8] << 24 | (input[9] & 0xFF) << 16
 				| (input[10] & 0xFF) << 8 | input[11];
 	}
 
-	private int extractCommandCode(byte[] input) {
-		return input[5] << 16 | input[6] << 8 | input[7];
+	private long extractCommandCode(byte[] input) {
+		return (input[5] & 0xFF) << 16 | (input[6] & 0xFF) << 8 | (input[7] & 0xFF);
 	}
 
-	private int extractMessageLength(byte[] input) {
-		return (input[1] << 16) + (input[2] << 8) + input[3];
+	private long extractMessageLength(byte[] input) {
+		return (input[1] & 0xFF) << 16 | (input[2] & 0xFF) << 8 | (input[3] & 0xFF);
 	}
 
 	public void encode(byte[] input) {

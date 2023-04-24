@@ -115,4 +115,22 @@ public class DiameterHeaderTest {
 		header.decode(input);
 	}
 
+	private static final byte XFF = -1;
+	@Test
+	public void testDecodeHeaderMaxValues() {
+		byte[] input = { 0x01, XFF, XFF, XFF, (byte) 0xC0, XFF, XFF, XFF,
+				XFF, XFF, XFF, XFF, XFF, XFF, XFF, XFF, XFF, XFF,
+				XFF, XFF };
+		DiameterHeader header = new DiameterHeader(input);
+		assertEquals(0x01, header.getVersion());
+		assertEquals(0xffffff, header.getMessageLength());
+		assertTrue(header.isRequest());
+		assertTrue(header.isProxiable());
+		assertFalse(header.isError());
+		assertFalse(header.isRetransmitted());
+		assertEquals(0xffffff, header.getCommandCode());
+		assertEquals(0xffffffff, header.getApplicationId());
+		assertEquals(0xffffffff, header.getHopByHopId());
+		assertEquals(0xffffffff, header.getEndToEndId());
+	}
 }
